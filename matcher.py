@@ -18,12 +18,26 @@ from tqdm import tqdm
 # from apex import amp
 from scipy.special import softmax
 
-from ditto_light.ditto import evaluate, DittoModel
-from ditto_light.exceptions import ModelNotFoundError
-from ditto_light.dataset import DittoDataset
-from ditto_light.summarize import Summarizer
-from ditto_light.knowledge import *
+try:
+    from ditto_light.ditto import evaluate, DittoModel
+    from ditto_light.exceptions import ModelNotFoundError
+    from ditto_light.dataset import DittoDataset
+    from ditto_light.summarize import Summarizer
+    from ditto_light.knowledge import *
+except ImportError:
+    def evaluate(*args, **kwargs):
+        raise NotImplementedError("ditto_light is not installed.")
 
+    class DittoModel:
+        def __init__(self, *args, **kwargs):
+            raise NotImplementedError("ditto_light is not installed.")
+
+    class ModelNotFoundError(Exception):
+        pass
+
+    class DittoDataset:
+        def __init__(self, *args, **kwargs):
+            raise NotImplementedError("ditto_light is not installed.")
 
 def set_seed(seed: int):
     """

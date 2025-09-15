@@ -8,10 +8,25 @@ import random
 
 sys.path.insert(0, "Snippext_public")
 
-from ditto_light.dataset import DittoDataset
-from ditto_light.summarize import Summarizer
-from ditto_light.knowledge import *
-from ditto_light.ditto import train
+try:
+    from ditto_light.dataset import DittoDataset
+    from ditto_light.summarize import Summarizer
+    from ditto_light.knowledge import *
+    from ditto_light.ditto import train
+except ImportError:
+    def evaluate(*args, **kwargs):
+        raise NotImplementedError("ditto_light is not installed.")
+
+    class DittoModel:
+        def __init__(self, *args, **kwargs):
+            raise NotImplementedError("ditto_light is not installed.")
+
+    class ModelNotFoundError(Exception):
+        pass
+
+    class DittoDataset:
+        def __init__(self, *args, **kwargs):
+            raise NotImplementedError("ditto_light is not installed.")
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
